@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "webpack-dev-server --env.dev",
-    "build": "webpack"
+    "build": "webpack --watch"
   },
   "dependencies": {},
   "devDependencies": {
