@@ -4,7 +4,7 @@ let key = 0;
 
 const Header = (props) => (
   <h2 id={key++} style={{ fontSize: '30px' }}>
-    {props.text}
+    +{props.text}
   </h2>
 );
 

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Section from './Section.jsx';
 import Header from './Header.jsx';
+import HeaderHtml from './HeaderHtml.jsx';
+import SectionHtml from './SectionHtml.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,6 +11,7 @@ class App extends React.Component {
     this.state = {
       items: [''],
       inputText: '',
+      firstHeader: true,
     };
     this.onChange = this.onChange.bind(this);
     this.addSection = this.addSection.bind(this);
@@ -17,9 +20,9 @@ class App extends React.Component {
 
   addSection() {
     let newState = this.state.items.concat(
-      <Section text={this.state.inputText} />
+      <Section section={true} text={this.state.inputText} />
     );
-    console.log(newState);
+    // console.log(newState[1].props.text);
     this.setState(() => ({
       items: newState,
       inputText: '',
@@ -28,7 +31,7 @@ class App extends React.Component {
 
   addHeader() {
     let newState = this.state.items.concat(
-      <Header text={this.state.inputText} />
+      <Header header={true} text={this.state.inputText} />
     );
     this.setState(() => ({
       items: newState,
@@ -43,8 +46,10 @@ class App extends React.Component {
   }
 
   render() {
+    let id = 1;
     return (
       <div style={{ textAlign: 'center' }}>
+        <h1>YI Course Overview to HTML Tool</h1>
         <div>
           <input
             style={{
@@ -82,10 +87,20 @@ class App extends React.Component {
             New Section
           </button>
         </div>
-        <div>
-          {this.state.items.map((item) => (
-            <Section text={item} />
-          ))}
+        <div
+          style={{
+            width: '60%',
+            // minHeight: '100px',
+            backgroundColor: 'lightGrey',
+            margin: 'auto',
+            borderRadius: '10px',
+            padding: '5px',
+            marginBottom: '15px',
+            marginTop: '15px',
+          }}
+        >
+          <h3>Layout</h3>
+          {this.state.items.map((item) => item)}
         </div>
         <div
           style={{
@@ -98,6 +113,49 @@ class App extends React.Component {
           }}
         >
           <h3>HTML</h3>
+          <div>{`
+          <div class="mt-1">&nbsp;</div>
+            <div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-12">
+                    <h2>Course Layout</h2>
+                    <div
+                      aria-multiselectable="true"
+                      class="panel-group"
+                      id="accordion"
+                      role="tablist"
+                    >
+          `}</div>
+
+          <div style={{ whiteSpace: 'pre' }}>
+            {this.state.items.map((item, index, array) => {
+              if (item.props !== undefined) {
+                let returnVal;
+                if (item.props.header) {
+                  returnVal = <HeaderHtml id={id++} text={item.props.text} />;
+                } else if (item.props.section) {
+                  returnVal = <SectionHtml text={item.props.text} />;
+                }
+                if (
+                  array[index + 1] === undefined ||
+                  array[index + 1].props.header !== undefined ||
+                  index === array.length
+                ) {
+                  returnVal = [returnVal, `\n</ul></div></div></div>`];
+                }
+                return returnVal;
+              }
+            })}
+          </div>
+
+          <div>{`
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `}</div>
         </div>
       </div>
     );
