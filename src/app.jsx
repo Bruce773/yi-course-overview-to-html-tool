@@ -100,7 +100,11 @@ class App extends React.Component {
           }}
         >
           <h3>Layout</h3>
-          {this.state.items.map((item) => item)}
+          <div
+            style={{ minHeight: '40px', maxHeight: '200px', overflowY: 'auto' }}
+          >
+            {this.state.items.map((item) => item)}
+          </div>
         </div>
         <div
           style={{
