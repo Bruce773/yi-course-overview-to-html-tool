@@ -113,11 +113,11 @@ class App extends React.Component {
             backgroundColor: 'lightGrey',
             margin: 'auto',
             borderRadius: '10px',
-            padding: '10px',
+            padding: '5px',
           }}
         >
           <h3>HTML</h3>
-          <div>
+          <div style={{ padding: '0px 25px 25px 25px' }}>
             <code>
               <div>{`<div class="mt-1">&nbsp;</div><div><div class="container"><div class="row"><div class="col-12"><h2>Course Layout</h2><div aria-multiselectable="true" class="panel-group" id="accordion" role="tablist">`}</div>
 
