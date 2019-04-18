@@ -49,7 +49,7 @@ class App extends React.Component {
     let id = 1;
     return (
       <div style={{ textAlign: 'center' }}>
-        <h1>YI Course Overview to HTML Tool</h1>
+        <h1 style={{ color: '#ec892e' }}>YI Course Overview to HTML Tool</h1>
         <div>
           <input
             style={{
@@ -113,53 +113,46 @@ class App extends React.Component {
             backgroundColor: 'lightGrey',
             margin: 'auto',
             borderRadius: '10px',
-            padding: '5px',
+            padding: '10px',
           }}
         >
           <h3>HTML</h3>
-          <div>{`
-          <div class="mt-1">&nbsp;</div>
-            <div>
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <h2>Course Layout</h2>
-                    <div
-                      aria-multiselectable="true"
-                      class="panel-group"
-                      id="accordion"
-                      role="tablist"
-                    >
-          `}</div>
+          <div>
+            <code>
+              <div>{`<div class="mt-1">&nbsp;</div><div><div class="container"><div class="row"><div class="col-12"><h2>Course Layout</h2><div aria-multiselectable="true" class="panel-group" id="accordion" role="tablist">`}</div>
 
-          <div style={{ whiteSpace: 'pre' }}>
-            {this.state.items.map((item, index, array) => {
-              if (item.props !== undefined) {
-                let returnVal;
-                if (item.props.header) {
-                  returnVal = <HeaderHtml id={id++} text={item.props.text} />;
-                } else if (item.props.section) {
-                  returnVal = <SectionHtml text={item.props.text} />;
-                }
-                if (
-                  array[index + 1] === undefined ||
-                  array[index + 1].props.header !== undefined ||
-                  index === array.length
-                ) {
-                  returnVal = [returnVal, `\n</ul></div></div></div>`];
-                }
-                return returnVal;
-              }
-            })}
-          </div>
+              <div>
+                {this.state.items.map((item, index, array) => {
+                  if (item.props !== undefined) {
+                    let returnVal;
+                    if (item.props.header) {
+                      returnVal = (
+                        <HeaderHtml id={id++} text={item.props.text} />
+                      );
+                    } else if (item.props.section) {
+                      returnVal = <SectionHtml text={item.props.text} />;
+                    }
+                    if (
+                      array[index + 1] === undefined ||
+                      array[index + 1].props.header !== undefined ||
+                      index === array.length
+                    ) {
+                      returnVal = [returnVal, `</ul></div></div></div>`];
+                    }
+                    return returnVal;
+                  }
+                })}
+              </div>
 
-          <div>{`
+              <div>{`
                   </div>
                   </div>
                 </div>
               </div>
             </div>
           `}</div>
+            </code>
+          </div>
         </div>
       </div>
     );
