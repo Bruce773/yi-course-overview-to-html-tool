@@ -1,6 +1,5 @@
 import React from 'react';
 
-const SectionHtml = (props) =>
-  `<li style="margin-left:15px;">${props.text}</li>`;
+const SectionHtml = ({ text }) => `<li style="margin-left:15px;">${text}</li>`;
 
 export default SectionHtml;

@@ -2,9 +2,9 @@ import React from 'react';
 
 let key = 0;
 
-const Section = (props) => (
+const Section = ({ text }) => (
   <p id={key++} style={{ fontSize: '20px' }}>
-    {props.text}
+    {text}
   </p>
 );
 

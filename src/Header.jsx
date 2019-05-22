@@ -2,9 +2,9 @@ import React from 'react';
 
 let key = 0;
 
-const Header = (props) => (
+const Header = ({ text }) => (
   <h2 id={key++} style={{ fontSize: '30px', padding: '0px', margin: '0px' }}>
-    + {props.text}
+    + {text}
   </h2>
 );
 
