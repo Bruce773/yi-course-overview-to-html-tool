@@ -19,14 +19,22 @@ const App = () => {
   const firstHeader = true;
   let id = 1;
 
+  const deleteHeader = (itemId) => {
+    console.log(itemId);
+  };
+
   const addSection = () => {
-    let newState = items.concat(<Section section={true} text={inputText} />);
+    let newState = items.concat(
+      <Section delete={deleteHeader} key={id} section={true} text={inputText} />
+    );
     setItems(newState);
     setInputText('');
   };
 
   const addHeader = () => {
-    let newState = items.concat(<Header header={true} text={inputText} />);
+    let newState = items.concat(
+      <Header deleteHeader={deleteHeader} header={true} text={inputText} />
+    );
     setItems(newState);
     setInputText('');
   };
