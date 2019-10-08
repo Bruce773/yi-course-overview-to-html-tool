@@ -1,156 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import Section from './Section.jsx';
-import Header from './Header.jsx';
-import HeaderHtml from './HeaderHtml.jsx';
-import SectionHtml from './SectionHtml.jsx';
+import { Header, Section } from './LayoutComponents';
+import { HeaderHtml, SectionHtml } from './HtmlComponents';
+import {
+  LayoutContainer,
+  LayoutWrapper,
+  NewButton,
+  PageWrapper,
+  MainHeader,
+  Input,
+  HtmlContainer,
+  HtmlWrapper,
+} from './elements.jsx';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: [''],
-      inputText: '',
-      firstHeader: true,
-    };
-    this.onChange = this.onChange.bind(this);
-    this.addSection = this.addSection.bind(this);
-    this.addHeader = this.addHeader.bind(this);
-  }
+const App = () => {
+  const [items, setItems] = useState(['']);
+  const [inputText, setInputText] = useState('');
+  const firstHeader = true;
+  let id = 1;
 
-  addSection() {
-    let newState = this.state.items.concat(
-      <Section section={true} text={this.state.inputText} />
-    );
-    // console.log(newState[1].props.text);
-    this.setState(() => ({
-      items: newState,
-      inputText: '',
-    }));
-  }
+  const addSection = () => {
+    let newState = items.concat(<Section section={true} text={inputText} />);
+    setItems(newState);
+    setInputText('');
+  };
 
-  addHeader() {
-    let newState = this.state.items.concat(
-      <Header header={true} text={this.state.inputText} />
-    );
-    this.setState(() => ({
-      items: newState,
-      inputText: '',
-    }));
-  }
+  const addHeader = () => {
+    let newState = items.concat(<Header header={true} text={inputText} />);
+    setItems(newState);
+    setInputText('');
+  };
 
-  onChange(event) {
+  const onChange = (event) => {
     const value = event.target.value;
-    this.setState(() => ({ inputText: value }));
-    event.target.value = this.state.inputText;
-  }
+    setInputText(value);
+    event.target.value = inputText;
+  };
 
-  render() {
-    let id = 1;
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <h1 style={{ color: '#ec892e' }}>YI Course Overview to HTML Tool</h1>
-        <div>
-          <input
-            style={{
-              display: 'block',
-              fontSize: '20px',
-              margin: 'auto',
-              marginBottom: '10px',
-            }}
-            value={this.state.inputText}
-            onChange={this.onChange}
-            placeholder="Header or section"
-          />
-          <button
-            style={{
-              fontSize: '15px',
-              cursor: 'pointer',
-              borderRadius: '10px',
-              padding: '10px',
-              margin: '5px',
-            }}
-            onClick={this.addHeader}
-          >
-            New Header
-          </button>
-          <button
-            style={{
-              fontSize: '15px',
-              cursor: 'pointer',
-              borderRadius: '10px',
-              padding: '10px',
-              margin: '5px',
-            }}
-            onClick={this.addSection}
-          >
-            New Section
-          </button>
-        </div>
-        <div
-          style={{
-            width: '60%',
-            // minHeight: '100px',
-            backgroundColor: 'lightGrey',
-            margin: 'auto',
-            borderRadius: '10px',
-            padding: '5px',
-            marginBottom: '15px',
-            marginTop: '15px',
-          }}
-        >
-          <h3>Layout</h3>
-          <div
-            style={{ minHeight: '40px', maxHeight: '200px', overflowY: 'auto' }}
-          >
-            {this.state.items.map((item) => item)}
-          </div>
-        </div>
-        <div
-          style={{
-            width: '60%',
-            minHeight: '130px',
-            backgroundColor: 'lightGrey',
-            margin: 'auto',
-            borderRadius: '10px',
-            padding: '5px',
-          }}
-        >
-          <h3>HTML</h3>
-          <div style={{ padding: '0px 25px 25px 25px' }}>
-            <code>
-              <div>{`<div class="mt-1">&nbsp;</div><div><div class="container"><div class="row"><div class="col-12"><h2>Course Layout</h2><div aria-multiselectable="true" class="panel-group" id="accordion" role="tablist">`}</div>
+  return (
+    <PageWrapper>
+      <MainHeader>YI Course Overview to HTML Tool</MainHeader>
+      <Input
+        value={inputText}
+        onChange={onChange}
+        placeholder="Header or section"
+      />
+      <NewButton onClick={addHeader}>New Header</NewButton>
+      <NewButton onClick={addSection}>New Section</NewButton>
+      <LayoutContainer>
+        <h3>Layout</h3>
+        <LayoutWrapper>{items.map((item) => item)}</LayoutWrapper>
+      </LayoutContainer>
+      <HtmlContainer>
+        <h3>HTML</h3>
+        <HtmlWrapper>
+          <code>
+            <div>{`<div class="mt-1">&nbsp;</div><div><div class="container"><div class="row"><div class="col-12"><h2>Course Layout</h2><div aria-multiselectable="true" class="panel-group" id="accordion" role="tablist">`}</div>
 
-              <div>
-                {this.state.items.map((item, index, array) => {
-                  if (item.props !== undefined) {
-                    let returnVal;
-                    if (item.props.header) {
-                      returnVal = (
-                        <HeaderHtml id={id++} text={item.props.text} />
-                      );
-                    } else if (item.props.section) {
-                      returnVal = <SectionHtml text={item.props.text} />;
-                    }
-                    if (
-                      array[index + 1] === undefined ||
-                      array[index + 1].props.header !== undefined ||
-                      index === array.length
-                    ) {
-                      returnVal = [returnVal, `</ul></div></div></div>`];
-                    }
-                    return returnVal;
+            <div>
+              {items.map((item, index, array) => {
+                if (item.props !== undefined) {
+                  let returnVal;
+                  if (item.props.header) {
+                    returnVal = <HeaderHtml id={id++} text={item.props.text} />;
+                  } else if (item.props.section) {
+                    returnVal = <SectionHtml text={item.props.text} />;
                   }
-                })}
-              </div>
-              <div>{`</div></div></div></div></div>`}</div>
-            </code>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+                  if (
+                    array[index + 1] === undefined ||
+                    array[index + 1].props.header !== undefined ||
+                    index === array.length
+                  ) {
+                    returnVal = [returnVal, `</ul></div></div></div>`];
+                  }
+                  return returnVal;
+                }
+              })}
+            </div>
+            <div>{`</div></div></div></div></div>`}</div>
+          </code>
+        </HtmlWrapper>
+      </HtmlContainer>
+    </PageWrapper>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('app'));
 
